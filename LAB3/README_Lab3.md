@@ -38,7 +38,6 @@ Chuỗi kiểm thử EICAR được sử dụng để kiểm tra khả năng ph�
 
 Sau khi thực hiện kiểm thử, Windows Security đã phát hiện mối đe dọa và thực hiện hành động bảo vệ. Kết quả có thể được quan sát trong mục Protection History.
 
-<!-- DÁN ẢNH WINDOWS SECURITY / THREAT QUARANTINED Ở ĐÂY -->
 
 
 Qua kết quả trên có thể thấy Windows Defender đang hoạt động và có khả năng phát hiện mẫu kiểm thử EICAR.
@@ -52,7 +51,31 @@ Audit Logon được cấu hình ở trạng thái:
 `Success and Failure`
 
 nhằm cho phép Windows ghi nhận các sự kiện xác thực trong Security Log.
+### 4.4. Phân tích lưu lượng HTTP/HTTPS bằng Wireshark
+Wireshark được sử dụng để chuẩn bị bắt lưu lượng trên giao diện loopback.
+
+Mục tiêu của phần thực hành là tạo lưu lượng HTTP và HTTPS cục bộ, sau đó sử dụng Wireshark để quan sát sự khác biệt giữa lưu lượng không mã hóa và lưu lượng được bảo vệ bằng TLS.
+
 
 <img width="975" height="770" alt="image" src="https://github.com/user-attachments/assets/1571bce7-6591-4f19-b876-9e63e6ef8856" />
 <img width="975" height="687" alt="image" src="https://github.com/user-attachments/assets/dc470955-b990-485b-bdfc-bc9866d37de1" />
+## 5. Kết quả tổng kết
+Qua các nội dung đã thực hiện, em đã:
 
+- Biết cách thu thập baseline của một hệ thống Windows trước khi kiểm thử.
+- Kiểm tra được trạng thái Windows Defender và Windows Firewall.
+- Quan sát được khả năng phát hiện mẫu kiểm thử EICAR của Windows Defender.
+- Biết cách bật Audit Logon trên Windows.
+- Tạo và sử dụng tài khoản thử nghiệm để tạo sự kiện xác thực.
+- Xác định được Event ID 4625 tương ứng với một lần đăng nhập thất bại.
+- Làm quen với việc sử dụng Security Log phục vụ quá trình phân tích sự kiện.
+- Chuẩn bị Wireshark để phân tích và so sánh lưu lượng HTTP/HTTPS.
+
+## 6. Lưu ý
+- Toàn bộ quá trình thực hành được thực hiện trong môi trường Lab có kiểm soát.
+- Máy ảo Windows Server 2025 được sử dụng thay cho Windows 11 trong một số nội dung thực hành.
+- EICAR chỉ là chuỗi kiểm thử tiêu chuẩn dùng để kiểm tra phần mềm antivirus, không phải mã độc thực tế.
+- Tài khoản `lab3user` chỉ được tạo để phục vụ bài Lab.
+- Các lần đăng nhập sai được thực hiện có kiểm soát nhằm tạo Security Event phục vụ phân tích.
+- Không sử dụng mã độc thật, không thực hiện tấn công vào hệ thống bên ngoài và không thu thập thông tin đăng nhập thực tế.
+- Các ảnh minh chứng trong bài là ảnh chụp từ quá trình thực hành thực tế.
