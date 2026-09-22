@@ -1,8 +1,8 @@
 # LAB 1 - Examining SSH & Telnet in Wireshark
 
 ## 1. Thông tin sinh viên
-- Họ và tên: [Điền họ tên]
-- Mã số sinh viên: [Điền MSSV]
+- Họ và tên: Trần Lê Anh Đại
+- Mã số sinh viên: 1150080007
 
 ## 2. Tên bài Lab
 **Lab 1: Bắt gói tin Telnet - SSH / Examining SSH & Telnet in Wireshark**
