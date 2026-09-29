@@ -1,1 +1,42 @@
+# LAB 3 - Threats, Attacks and Vulnerabilities
+
+## 1. Thông tin sinh viên
+
+- Họ và tên: Trần Lê Anh Đại
+- MSSV: 1150080007
+- Môn học: An toàn và bảo mật hệ thống thông tin
+- Tên bài Lab: LAB 3 - Threats, Attacks and Vulnerabilities
+
+---
+
+## 2. Phiên bản môi trường thực hành
+
+Môi trường được sử dụng trong bài thực hành:
+
+- VMware Workstation
+- Kali Linux 2026.2
+- Metasploitable 2
+- Nmap 7.99
+- Mạng VMware Host-only
+- Kali Linux IP: 192.168.201.129
+- Metasploitable 2 IP: 192.168.201.130
+
+Metasploitable 2 được sử dụng làm máy mục tiêu trong môi trường lab cô lập.
+Kali Linux được sử dụng để thực hiện các thao tác kiểm tra và quét mạng.
+
+---
+
+## 3. Cách dựng môi trường
+
+1. Cài đặt VMware Workstation.
+2. Khởi động Kali Linux trên VMware.
+3. Import máy ảo Metasploitable 2 vào VMware.
+4. Cấu hình Kali Linux và Metasploitable 2 sử dụng mạng Host-only.
+5. Khởi động hai máy ảo.
+6. Kiểm tra địa chỉ IP của hai máy.
+7. Kiểm tra kết nối từ Kali Linux đến Metasploitable 2 bằng lệnh:
+
+```bash
+ping -c 3 192.168.201.130
+
 
