@@ -1,1 +1,147 @@
 
+# BÁO CÁO THỰC HÀNH PFSENSE FIREWALL
+
+## 1. Thông tin sinh viên
+- Họ và tên: Trần Lê Anh Đại
+- MSSV: 1150080007
+- Nội dung: Cài đặt và cấu hình pfSense Firewall trên VMware
+
+## 2. Mục tiêu thực hành
+- Cài đặt và cấu hình pfSense trên VMware Workstation.
+- Thiết lập các interface WAN, LAN và OPT1.
+- Cấu hình Windows Server hoạt động trong mạng LAN.
+- Cấu hình Kali Linux hoạt động trong mạng OPT1.
+- Kiểm tra khả năng kết nối giữa các máy trong hệ thống.
+- Kiểm tra khả năng truy cập Internet thông qua pfSense.
+
+## 3. Mô hình mạng
+
+Mô hình được sử dụng:
+
+Internet
+   |
+  WAN
+   |
+pfSense
+   |----------------|
+   |                |
+  LAN              OPT1
+10.0.0.1        172.16.0.1
+   |                |
+Windows Server     Kali Linux
+10.0.0.2         172.16.0.2
+
+## 4. Cấu hình pfSense
+
+pfSense được cấu hình với 3 card mạng:
+
+- WAN (em0): DHCP
+- LAN (em1): 10.0.0.1/8
+- OPT1 (em2): 172.16.0.1/16
+
+WAN nhận địa chỉ IP tự động từ mạng NAT của VMware.
+
+Sau khi cấu hình hoàn tất, truy cập giao diện quản trị pfSense bằng địa chỉ:
+
+https://10.0.0.1
+
+Tiến hành Setup Wizard và thiết lập mật khẩu cho tài khoản quản trị.
+
+## 5. Cấu hình Windows Server
+
+Windows Server được kết nối vào mạng LAN của pfSense.
+
+Thông số cấu hình:
+
+- IP Address: 10.0.0.2
+- Subnet Mask: 255.0.0.0
+- Default Gateway: 10.0.0.1
+
+Kiểm tra kết nối tới pfSense:
+
+ping 10.0.0.1
+
+Kết quả: Windows Server có thể kết nối tới LAN interface của pfSense.
+
+Tiếp tục kiểm tra Internet:
+
+ping 8.8.8.8
+
+Kết quả: nhận được phản hồi từ 8.8.8.8, chứng tỏ Windows Server có thể truy cập Internet thông qua pfSense.
+
+## 6. Cấu hình Kali Linux
+
+Kali Linux được kết nối vào mạng OPT1 của pfSense.
+
+Thông số dự kiến:
+
+- IP Address: 172.16.0.2
+- Subnet Mask: /16
+- Default Gateway: 172.16.0.1
+- DNS: 8.8.8.8
+
+Sử dụng NetworkManager để cấu hình địa chỉ IP tĩnh cho card mạng eth0.
+
+Các lệnh sử dụng:
+
+sudo nmcli connection modify "Wired connection 1" ipv4.method manual
+sudo nmcli connection modify "Wired connection 1" ipv4.addresses 172.16.0.2/16
+sudo nmcli connection modify "Wired connection 1" ipv4.gateway 172.16.0.1
+sudo nmcli connection modify "Wired connection 1" ipv4.dns 8.8.8.8
+
+Khởi động lại kết nối:
+
+sudo nmcli connection down "Wired connection 1"
+sudo nmcli connection up "Wired connection 1"
+
+Kiểm tra trạng thái:
+
+nmcli device status
+
+Kiểm tra địa chỉ IP:
+
+ip addr show eth0
+
+Sau khi card mạng hoạt động, kiểm tra kết nối tới OPT1 của pfSense:
+
+ping -c 4 172.16.0.1
+
+## 7. Kiểm tra hoạt động của pfSense
+
+Từ console pfSense tiến hành kiểm tra Internet:
+
+ping 8.8.8.8
+
+Kết quả nhận được:
+
+- 3 packets transmitted
+- 3 packets received
+- 0.0% packet loss
+
+Điều này chứng minh WAN của pfSense đã kết nối Internet thành công.
+
+Trong giao diện WebGUI kiểm tra tại Status → Interfaces:
+
+- WAN: UP
+- LAN: UP
+- OPT1: UP
+
+## 8. Kết quả thực hiện
+
+Đã thực hiện được:
+
+- Cài đặt pfSense trên VMware.
+- Cấu hình 3 interface WAN, LAN và OPT1.
+- WAN của pfSense truy cập Internet thành công.
+- Windows Server kết nối với LAN pfSense thành công.
+- Windows Server truy cập Internet thông qua pfSense thành công.
+- Truy cập được giao diện WebGUI của pfSense.
+- Cấu hình địa chỉ IP cho Kali Linux thuộc mạng OPT1.
+- Thực hiện kiểm tra kết nối giữa các máy và pfSense.
+
+## 9. Kết luận
+
+Qua bài thực hành, em đã hiểu được cách triển khai pfSense Firewall trên môi trường VMware, cách cấu hình các interface WAN, LAN và OPT1 cũng như cách kết nối các máy Client vào từng vùng mạng.
+
+pfSense đóng vai trò gateway/firewall trung tâm, giúp quản lý lưu lượng giữa mạng nội bộ và Internet. Thông qua bài thực hành, em cũng thực hành được việc cấu hình IP tĩnh, gateway và kiểm tra kết nối mạng bằng các công cụ như ping, ip addr, ip route và nmcli.
+link youtube https://youtu.be/P-YuR9vEwh4
