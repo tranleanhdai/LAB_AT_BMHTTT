@@ -1,1 +1,81 @@
 
+# LAB – CẤU HÌNH FIREWALL PFSENSE VÀ KIỂM THỬ TRUY CẬP WEB SERVER TRONG DMZ
+
+## 1. Thông tin sinh viên
+
+- **Họ và tên:** Trần Đại
+- **MSSV:** 1150080007
+- **Lớp:** 11CNPM1
+- **Môn học:** An toàn và bảo mật hệ thống thông tin
+- **Môi trường thực hành:** VMware Workstation
+
+## 2. Mục tiêu bài thực hành
+
+Bài thực hành nhằm tìm hiểu cách triển khai và cấu hình tường lửa pfSense trong môi trường mạng ảo.
+
+Các mục tiêu chính:
+
+- Cài đặt và cấu hình pfSense làm thiết bị định tuyến và tường lửa.
+- Xây dựng mô hình mạng gồm LAN và DMZ.
+- Cấu hình địa chỉ IP tĩnh cho các máy ảo.
+- Thiết lập Firewall Rules để kiểm soát lưu lượng mạng.
+- Kiểm tra kết nối giữa Windows Server và Ubuntu Server.
+- Triển khai một Web Server đơn giản trên Ubuntu.
+- Kiểm tra khả năng truy cập dịch vụ HTTP từ mạng LAN đến DMZ.
+- Quan sát nhật ký Firewall để phân tích lưu lượng được cho phép hoặc bị chặn.
+
+## 3. Môi trường thực hiện
+
+| Thành phần | Vai trò | Công nghệ |
+|---|---|---|
+| VMware Workstation | Nền tảng ảo hóa | VMware |
+| pfSense CE | Firewall và Router | pfSense |
+| Windows Server 2025 | Máy khách trong LAN | Windows |
+| Ubuntu 26.04.1 LTS | Web Server trong DMZ | Linux |
+| Python HTTP Server | Dịch vụ Web thử nghiệm | Python 3 |
+
+## 4. Mô hình mạng
+
+Mô hình mạng gồm ba vùng chính:
+
+**WAN:** Kết nối ra mạng bên ngoài thông qua NAT của VMware.
+
+**LAN:** Mạng nội bộ, chứa máy Windows Server 2025.
+
+**DMZ:** Vùng mạng riêng dành cho Ubuntu Web Server.
+
+Sơ đồ kết nối:
+
+```text
+                 INTERNET
+                    |
+                 VMware NAT
+                    |
+                 [pfSense]
+                    |
+          +---------+---------+
+          |                   |
+         LAN                 DMZ
+          |                   |
+   Windows Server       Ubuntu Server
+          |                   |
+     Máy khách             Web Server
+```
+
+### Bảng địa chỉ IP
+
+| Thiết bị | Địa chỉ IP | Chức năng |
+|---|---|---|
+| pfSense LAN | 10.6.0.1 | Gateway LAN |
+| pfSense DMZ | 172.16.6.1 | Gateway DMZ |
+| Windows Server | Mạng LAN | Máy khách kiểm thử |
+| Ubuntu Server | 172.16.6.10/24 | Web Server |
+| Ubuntu Server | 172.16.6.20/24 | Địa chỉ IP bổ sung để kiểm thử |
+
+Các máy ảo được kết nối bằng mạng ảo VMware VMnet theo từng vùng mạng tương ứng.
+
+## 5. Nội dung thực hiện
+
+### 5.1. Cài đặt và cấu hình pfSense
+
+Tiến hành cài đặt pfSense
