@@ -1,1 +1,48 @@
-
+LAB 7 – TRIỂN KHAI MÔI TRƯỜNG MẠNG VÀ DỊCH VỤ WINDOWS SERVER
+1. Thông tin sinh viên
+- Họ và tên:Trần Lê Anh Đại 
+- MSSV: 1150080007
+- Lớp: 11CNPM1
+- Môn học: An toàn và bảo mật hệ thống thông tin
+- Bài thực hành: LAB 7
+2. Môi trường thực hiện
+- Phần mềm ảo hóa: VMware Workstation
+- Firewall/router: pfSense CE 2.7.2
+- Máy chủ: Windows Server 2025
+- Máy khách: Ubuntu Linux
+- Mô hình mạng:
+  - pfSense WAN: 192.168.10.134/24 (DHCP, địa chỉ quan sát được trong quá trình thực hành)
+  - pfSense LAN: 10.6.0.1/24 (VMnet2)
+  - pfSense OPT1: 172.16.6.1/24 (VMnet3)
+  - Windows Server: 10.6.0.21/24, gateway 10.6.0.1
+  - Ubuntu: 172.16.6.10/24, gateway 172.16.6.1
+- Domain dự kiến/đã cấu hình: lab7.test
+3. Mục tiêu
+- Thiết lập kết nối giữa các máy ảo qua pfSense.
+- Cấu hình các interface WAN, LAN, OPT1 và quy tắc firewall phù hợp.
+- Kiểm tra khả năng kết nối nội bộ và truy cập Internet.
+- Cài đặt Active Directory Domain Services (AD DS) và DNS trên Windows Server.
+- Nâng cấp Windows Server thành Domain Controller cho domain lab7.test.
+- Tiếp tục các yêu cầu thực hành khác theo đề LAB 7 sau khi xác nhận dịch vụ hoạt động.
+4. Các bước đã thực hiện
+4.1. Cấu hình pfSense
+1. Tạo và khởi động máy ảo pfSense trong VMware Workstation.
+2. Cấu hình WAN sử dụng NAT; LAN nối VMnet2; OPT1 nối VMnet3.
+3. Đặt địa chỉ LAN 10.6.0.1/24 và OPT1 172.16.6.1/24.
+4. Truy cập giao diện web quản trị pfSense từ Windows Server qua https://10.6.0.1.
+5. Tạo/chỉnh sửa quy tắc firewall trên OPT1 để phục vụ kiểm tra kết nối.
+4.2. Cấu hình Windows Server
+1. Cấu hình IP 10.6.0.21/24, gateway 10.6.0.1.
+2. Kiểm tra ping tới gateway 10.6.0.1: nhận đủ 4/4 gói.
+3. Mở Server Manager → Add Roles and Features.
+4. Cài đặt vai trò Active Directory Domain Services và DNS Server; trình cài đặt báo Installation succeeded.
+5. Chọn Promote this server to a domain controller → Add a new forest → nhập lab7.test.
+6. Cấu hình các tùy chọn Domain Controller và mật khẩu DSRM.
+7. Khắc phục lỗi Prerequisites Check do tài khoản Administrator cục bộ chưa có mật khẩu.
+8. Tiến hành cài đặt nâng cấp Domain Controller; máy chủ tự khởi động lại.
+Trạng thái: Đã thực hiện quá trình nâng cấp và khởi động lại; chưa có ảnh xác nhận đăng nhập domain và kiểm tra AD DS/DNS sau khởi động.
+4.3. Cấu hình Ubuntu
+1. Kết nối card mạng của Ubuntu vào VMnet3.
+2. Thiết lập IPv4 172.16.6.10/24, gateway 172.16.6.1.
+3. Cấu hình kết nối ens33 qua NetworkManager (nmcli) để lưu IP tĩnh.
+4. Kiểm tra ping tới 172.16.6.1 và 8.8.8.8.
